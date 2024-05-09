@@ -35,3 +35,26 @@ FREQ:		mov.b	#1,R7
 			.data
 vetor:		.byte	10,"TESTTEST"			; lowest = 'E' = 0x45
 ```
+
+## M1 - EX2
+
+Solution
+
+```asm
+SETUP:		mov		#vetor,R4				; pointer that receives the vector mem addr 
+			mov		@R4+,R5					; loop counter 
+			clr		R6						; greatest value
+			mov		#1,R7					; repeater count
+			call	#MAIOR16				;
+			jmp		$						;
+MAIOR16:	cmp		@R4,R6
+			jhs		LB1
+			mov		@R4+,R6
+LB1:		inc		R4
+			dec		R5
+			jnz		MAIOR16
+			ret
+
+			.data
+vetor:		.byte	6,0,"JOAQUIMJOSE",0			;maior = 0x534F
+```
