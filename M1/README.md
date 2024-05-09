@@ -58,3 +58,11 @@ LB1:		inc		R4
 			.data
 vetor:		.byte	6,0,"JOAQUIMJOSE",0			;maior = 0x534F
 ```
+
+## M1 - EX8
+
+## M1 - EX12
+
+## M1 - EX15
+
+## M1 - VISTO1
