@@ -23,34 +23,30 @@ StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
 ;-------------------------------------------------------------------------------
 ; Main loop here
 ;-------------------------------------------------------------------------------
-SETUP:		mov		#0x2400,R5	; memory address with the first value
-			clrc
-			mov		#1,R6		; 
-			mov		R6,0(R5)
-			incd	R5
-			mov		#1,R7		; R7 = (n-1) = 1
-			mov 	R7,0(R5)
-			incd	R5
-			add		R6,R7		; R7 = (n-2) + (n-1) = n
-			mov		R7,0(R5)
-			incd	R5
-			call	#FIB16
+SETUP:		mov		#vetor,R5				; ponteiro
+			mov.b	@R5+,R4					; varridas
+			mov.b	R4,R6					; contador do loop
+			call	#ORDENA
 			jmp		$
 			nop
-FIB16:		mov		R6,R9		; R9 passa a ser (n-2)
-			mov		R7,R6		; R6 passa a ser (n-1)
-			add		R9,R7		; R7 = R9 + R6 = (n-2) + (n-1) = n
-			jc		END			; Se carry = 1, R7 > 16 bits
-			mov		R7,0(R5)
-			incd	R5
-			jmp		FIB16
-			nop
-FIM:		decd	R5			; Volta ao elemento anterior (< 16 bits)
-			mov		@R5,R10		; R10 = último elemento < 16 bits
+ORDENA:		cmp.b	0(R5),1(R5)
+			jhs		LB1
+			mov.b	0(R5),R7				; reg auxiliar
+			mov.b	1(R5),0(R5)
+			mov.b	R7,1(R5)
+LB1:		inc		R5
+			dec		R6
+			jnz		ORDENA
+VARRE:		mov		#vetor,R5
+			mov.b	@R5+,R6
+			dec		R4
+			cmp		#1,R4
+			jne		ORDENA
 			ret
 
+                                            
 			.data
-; data is empty
+vetor:		.byte	5,4,7,3,5,1				;
 ;-------------------------------------------------------------------------------
 ; Stack Pointer definition
 ;-------------------------------------------------------------------------------
