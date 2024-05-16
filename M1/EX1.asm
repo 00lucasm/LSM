@@ -24,14 +24,13 @@ StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
 ;-------------------------------------------------------------------------------
 ; Main loop here
 ;-------------------------------------------------------------------------------
-SETUP:
-			mov		#vetor,R4				; initialize the pointer
+SETUP:		mov		#vetor,R4				; initialize the pointer
 			mov.b	@R4+,R5					; loop counter
 			mov.b	@R4+,R6					; lowest value tmp
 			mov.b	#1,R7					; repeater counter eq to zero
 			call	#MENOR
 			jmp		$						; inifinity loop
-MENOR:			cmp.b	@R4,R6					;
+MENOR:		cmp.b	@R4,R6					;
 			jhs		LB1
 			inc		R4
 			dec		R5
