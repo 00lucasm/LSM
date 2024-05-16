@@ -1,6 +1,6 @@
 #include <msp430.h>
 
-#define DBC 90000;
+#define DBC 2000;
 
 void setup(void);
 void debounce(void);
