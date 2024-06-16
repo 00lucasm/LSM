@@ -11,7 +11,7 @@ int mon_s1(void);
 int mon_s2(void);
 void cont_leds(int ct);
 void debounce(int value);
-void io_setup(void);
+void io_setup(void);s
 
 int main(void){
 
