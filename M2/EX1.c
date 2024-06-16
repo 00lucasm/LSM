@@ -2,8 +2,12 @@
 
 #define     TRUE    1;
 #define     FALSE   0;
+#define     OPEN    1;
+#define     CLOSED  0;
+#define     DBC     2000;
 
 void io_setup(void);
+void debounce(int value);
 
 // main loop - literally
 int main(void){
@@ -13,8 +17,9 @@ int main(void){
     io_setup();
 
     while(1){
-        if((P2DIR & BIT1)){ // for each pusle, check if the switch was pressed
-            P4OUT ^= BIT7; // toggle led
+        if(!(P2IN & BIT1)){
+            P4OUT ^= BIT7;
+            debounce(DBC);
         }
     }
 }
@@ -28,4 +33,9 @@ void io_setup(void){
     // LED2 setup - P4.7 hardware mapping
     P4DIR |= BIT7;          // set LED2 as OUTPUT
     P4OUT &= ~BIT7;         // disable LED2
+}
+
+void debounce(int value){
+    volatile unsigned int x;
+    for(x = 0; x < value; x++);
 }
