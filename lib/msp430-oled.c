@@ -1,16 +1,6 @@
 #include <msp430.h>
 #include "msp430-oled.h"
-
-const unsigned char font5x7[][5] = {
-
-    {0x00, 0x00, 0x00, 0x00, 0x00},     // space
-    {0x00, 0x00, 0x5F, 0x00, 0x00},     // !
-    {0x00, 0x07, 0x00, 0x07, 0x00},     // "
-    {0x14, 0x7F, 0x14, 0x7F, 0x14},     // #
-    {0x24, 0x2A, 0x7F, 0x2A, 0x12},     // $
-    {0x7C, 0x0A, 0x09, 0x0A, 0x7C},     // 0x7E (~)
-
-};
+#include "font5x7.h"
 
 void i2c_init(void){
     P3SEL |= SDA_PIN + SCL_PIN;
@@ -87,13 +77,13 @@ void oled_clear(void){
     }
 }
 
-void oled_draw_char(unsigned char x, unsigned char y, char c){
-    if(c < 20 || c > 0x7E){
-        c = 0x20;
-    }
+void oled_draw_char(unsigned char x, unsigned char y, unsigned char c){
+
+    int i;
+    unsigned int offset = c * 5;
 
     for(i = 0; i < 5; i++){
-        i2c_write_byte(OLED_I2C_ADDR, 0x40, font5x7[c - 0x20][i]);
+        i2c_write_byte(OLED_I2C_ADDR, 0x40, font5x7[offset + i]);
     }
 
     i2c_write_byte(OLED_I2C_ADDR, 0x40, 0x00);
