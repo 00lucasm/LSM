@@ -35,7 +35,7 @@ void i2c_write_byte(unsigned char slave_addr, unsigned char reg_addr, unsigned c
 void oled_write_command(unsigned char command){
 
     i2c_write_byte(OLED_I2C_ADDR, 0x00, command);
-    
+
 }
 
 void oled_init(void){
